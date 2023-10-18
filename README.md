@@ -29,8 +29,11 @@
 O objetivo dessa aplicação é ser o Banco de Dados do blog (que está em desenvolvimento) do Grupo de Estudo para Maratona de Programação da UECE (GEMP), a linguagem de banco de dados usada será SQL e os principais requisitos são:
 <br />
     - armazenar as informações dos usuários
+    <br />
     - armazenar as informações dos posts
+    <br />
     - armazenar as informações dos comentários
+    <br />
     - armazenar as informações das categorias
 <br />
 O que falta ser implementado são as definições de permissões, a estruturação das consultas e inserções de dados pelo usuário final, além da API para conexão com cliente final.
