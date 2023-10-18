@@ -31,8 +31,8 @@ CREATE TABLE Post
   	date varchar(10),
   	approved char(10),
   	id_user int,
-  	PRIMARY KEY(id)
-  	FOREIGN KEY(id_user) REFERENCES User(id),
+  	PRIMARY KEY(id),
+  	FOREIGN KEY(id_user) REFERENCES User(id)
 );
 
 CREATE table Colaboration
@@ -42,8 +42,8 @@ CREATE table Colaboration
   	id_colaboration_permission int,
   	PRIMARY key(id_user, id_post),
   	FOREIGN key(id_user) REFERENCES User(id),
-  	FOREIGN key(id_post) REFERENCES Post(id)
-  	FOREIGN key(id_colaboration_permission) REFERENCES Colaboration_Permission(id),
+  	FOREIGN key(id_post) REFERENCES Post(id),
+  	FOREIGN key(id_colaboration_permission) REFERENCES Colaboration_Permission(id)
 );
 
 CREATE TABLE Likes
