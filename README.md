@@ -8,7 +8,7 @@
 ## Classificação dos atributos do modelo: 
 User
 <br />
-  	Refere-se aos usuários cadastrados no blog, cada usuário tem uma permissão de usuário, id, nome, email e um pass_hash. 
+  	Refere-se aos usuários cadastrados no blog, cada usuário tem uma permissão de usuário, guid, nome, email e um pass_hash. 
 <br />
 	Um usuário pode dar like em um post, comentar em um post e, dependendo do tipo de permissão que o usuário possuir, ele pode fazer um post no site ou fazer uma colab em um post com outros usuários de permissão semelhante.
 <br />
@@ -22,7 +22,7 @@ Post
 <br />
 Comment
 <br />
-	Refere-se aos comentários feitos nos posts feitos pelos usuários, cada comentário tem um id, conteúdo e data de publicação.
+	Refere-se aos comentários feitos nos posts feitos pelos usuários, cada comentário tem um guid, conteúdo e data de publicação.
 <br />
 <br />
 Category

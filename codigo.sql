@@ -1,4 +1,4 @@
-CREATE TABLE Colaboration_Permission
+CREATE TABLE Collaboration_Permission
 (
   	id int,
   	name char(20),
@@ -35,22 +35,22 @@ CREATE TABLE Post
   	FOREIGN KEY(id_user) REFERENCES User(id)
 );
 
-CREATE table Colaboration
+CREATE table Collaboration
 (
 	id_user int,
   	id_post int,
-  	id_colaboration_permission int,
-  	PRIMARY key(id_user, id_post),
+  	id_Collaboration_permission int,
+  	PRIMARY key(id_user, guid_post),
   	FOREIGN key(id_user) REFERENCES User(id),
   	FOREIGN key(id_post) REFERENCES Post(id),
-  	FOREIGN key(id_colaboration_permission) REFERENCES Colaboration_Permission(id)
+  	FOREIGN key(id_Collaboration_permission) REFERENCES Collaboration_Permission(id)
 );
 
 CREATE TABLE Likes
 (
 	id_user int,
   	id_post int,
-  	PRIMARY key(id_user, id_post),
+  	PRIMARY key(id_user, guid_post),
   	FOREIGN KEY(id_user) REFERENCES User(id),
   	FOREIGN KEY(id_post) REFERENCES Post(id)
 );
@@ -80,7 +80,7 @@ CREATE table Post_Category
 (
 	id_category int,
   	id_post int,
-  	PRIMARY key(id_category, id_post),
+  	PRIMARY key(id_category, guid_post),
   	FOREIGN KEY(id_category) REFERENCES Category(id),
   	FOREIGN key(id_post) REFERENCES Post(id)
 );
