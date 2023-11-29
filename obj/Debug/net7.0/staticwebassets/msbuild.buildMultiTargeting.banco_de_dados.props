@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../build/banco_de_dados.props" />
-</Project>
