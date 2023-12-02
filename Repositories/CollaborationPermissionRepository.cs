@@ -1,4 +1,4 @@
-using Contexts;
+using WebApi.Helpers;
 using Models;
 using Repositories.Interfaces;
 namespace Repositories;
@@ -8,18 +8,15 @@ public class CollaborationPermissionRepository : ICollaborationPermissionReposit
 
     private readonly ApplicationContext _context;
 
-    public CollaborationPermissionRepository(ApplicationContext context)
+    public async Task add(CollaborationPermissionModel collaborationPermission)
     {
-        _context = context;
+        await _context.CollaborationPermissions.AddAsync(collaborationPermission);
+        await _context.SaveChangesAsync();    
     }
 
-    public void add(CollaborationPermissionModel collaborationPermission)
+    public async Task delete(CollaborationPermissionModel collaborationPermission)
     {
-        throw new NotImplementedException();
-    }
-
-    public void delete(CollaborationPermissionModel collaborationPermission)
-    {
-        throw new NotImplementedException();
+        _context.CollaborationPermissions.Remove(collaborationPermission);
+        await _context.SaveChangesAsync();    
     }
 }

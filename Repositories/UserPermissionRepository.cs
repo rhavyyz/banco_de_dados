@@ -1,4 +1,4 @@
-using Contexts;
+using WebApi.Helpers;
 using Models;
 using Repositories.Interfaces;
 
@@ -15,13 +15,16 @@ public class UserPermissionRepository : IUserPermissionRepository
         _context = context;
     }
 
-    public void add(UserPermissionModel userPermission)
+    public async Task add(UserPermissionModel userPermission)
     {
-        throw new NotImplementedException();
+        await _context.UserPermissions.AddAsync(userPermission);
+        await _context.SaveChangesAsync();
     }
 
-    public void delete(UserPermissionModel userPermission)
+    public async Task delete(UserPermissionModel userPermission)
     {
-        throw new NotImplementedException();
+        _context.UserPermissions.Remove(userPermission);
+        await _context.SaveChangesAsync();
+
     }
 }

@@ -1,4 +1,5 @@
-using Contexts;
+using System.Data.Entity;
+using WebApi.Helpers;
 using Models;
 using Repositories.Interfaces;
 namespace Repositories;
@@ -14,18 +15,22 @@ public class CommentRepository : ICommentRepository
         _context = context;
     }
 
-    public void add(CommentModel comment)
+    public async Task add(CommentModel comment)
     {
-        throw new NotImplementedException();
+        await _context.Comments.AddAsync(comment);
+        await _context.SaveChangesAsync();  
     }
 
-    public void delete(CommentModel comment)
+    public async Task delete(CommentModel comment)
     {
-        throw new NotImplementedException();
+        _context.Comments.Remove(comment);
+        await _context.SaveChangesAsync();  
     }
 
-    public List<CommentModel> getByPost(PostModel post)
+    public async Task<List<CommentModel>> getByPost(PostModel post)
     {
-        throw new NotImplementedException();
+        var p = await _context.Posts.SingleOrDefaultAsync(e => e.guid == post.guid);
+
+        return p.Comments;
     }
 }

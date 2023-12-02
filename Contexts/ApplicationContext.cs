@@ -1,4 +1,4 @@
-namespace Contexts;
+namespace WebApi.Helpers;
 
 using Microsoft.EntityFrameworkCore;
 using Models;

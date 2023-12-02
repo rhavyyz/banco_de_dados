@@ -39,10 +39,10 @@ public class PostModel
     public UserModel User { get; set; }
 
     // [NotMapped]
-    public List<LikeModel> Likes { get; set; }
-    public List<CategoryModel> Categories { get; set; }
-    public List<CollaborationModel> Collaborations { get; set; }
-    public List<CommentModel> Comments { get; set; }
+    public virtual List<LikeModel> Likes { get; set; }
+    public virtual List<CategoryModel> Categories { get; set; }
+    public virtual List<CollaborationModel> Collaborations { get; set; }
+    public virtual List<CommentModel> Comments { get; set; }
 
     // public override void On
 }

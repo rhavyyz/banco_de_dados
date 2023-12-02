@@ -1,7 +1,7 @@
 using Models;
-namespace Repositories.Interfaces;
+namespace Services.Interfaces;
 
-public interface IUserRepository
+public interface IUserService
 {
     public Task add (UserModel user);
     public Task delete (UserModel user);

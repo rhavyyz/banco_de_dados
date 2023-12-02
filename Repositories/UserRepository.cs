@@ -1,4 +1,6 @@
-using Contexts;
+using System.Data.Entity;
+using WebApi.Helpers;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Repositories.Interfaces;
 namespace Repositories;
@@ -13,33 +15,46 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public void add(UserModel user)
+    public async Task add(UserModel user)
     {
-        throw new NotImplementedException();
+        await _context.Users.AddAsync(user);
+        await _context.SaveChangesAsync();
     }
 
-    public void delete(UserModel user)
+    public async Task delete(UserModel user)
     {
-        throw new NotImplementedException();
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();    
     }
 
-    public List<UserModel> getAll()
+    public IQueryable<UserModel> getAll()
     {
-        throw new NotImplementedException();
+        return _context.Users.AsQueryable();
     }
 
-    public List<UserModel> getByName(string name)
+    public async Task<List<UserModel>> getByName(string name)
     {
-        throw new NotImplementedException();
+        return await getAll().Where(e => e.name == name).ToListAsync(); 
     }
 
-    public UserModel getSingle(string email)
+    public async Task<UserModel> getSingle(string email)
     {
-        throw new NotImplementedException();
+        return await getAll().SingleOrDefaultAsync(e => e.email == email); 
     }
 
-    public UserModel update(UserModel user)
+    public async Task<UserModel> update(UserModel user)
     {
-        throw new NotImplementedException();
+        var res = await _context.Users.Where(
+                e => e.email == user.email 
+                ).ExecuteUpdateAsync(
+                    e => e
+                        .SetProperty(u => u.guid_permission , user.guid_permission)
+                        .SetProperty(u => u.name, user.name)
+                        .SetProperty(u => u.pass_hash, user.pass_hash)
+                        .SetProperty(u => u.email, user.email)
+                    );
+        await _context.SaveChangesAsync();    
+
+        return user;
     }
 }

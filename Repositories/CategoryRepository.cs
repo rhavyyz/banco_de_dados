@@ -1,6 +1,8 @@
 using Repositories.Interfaces;
-using Contexts;
+using WebApi.Helpers;
 using Models;
+using System.Data.Entity;
+
 namespace Repositories;
 
 public class CategoryRepository : ICategotyRepository
@@ -13,18 +15,22 @@ public class CategoryRepository : ICategotyRepository
         _context = context;
     }
 
-    public void add(CategoryModel category)
+    public async Task add(CategoryModel category)
     {
-        throw new NotImplementedException();
+        await _context.Categories.AddAsync(category);
+        await _context.SaveChangesAsync();
     }
 
-    public void delete(CategoryModel category)
+    public async Task delete(CategoryModel category)
     {
-        throw new NotImplementedException();
+        _context.Categories.Remove(category);
+        await _context.SaveChangesAsync();
     }
 
-    public List<CategoryModel> getByPost(PostModel post)
+    public async Task<List<CategoryModel>> getByPost(PostModel post)
     {
-        throw new NotImplementedException();
+        var p = await _context.Posts.SingleOrDefaultAsync(e => e.guid == post.guid);
+
+        return p.Categories;
     }
 }

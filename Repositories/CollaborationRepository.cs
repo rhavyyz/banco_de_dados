@@ -1,4 +1,6 @@
-using Contexts;
+using WebApi.Helpers;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 using Models;
 using Repositories.Interfaces;
 namespace Repositories;
@@ -14,18 +16,30 @@ public class CollaborationRepository : ICollaborationRepository
         _context = context;
     }
 
-    public void add(CollaborationModel collaboration)
+    public async Task add(CollaborationModel collaboration)
     {
-        throw new NotImplementedException();
+        await _context.Collaborations.AddAsync(collaboration);
+        await _context.SaveChangesAsync();    
     }
 
-    public void delete(CollaborationModel collaboration)
+    public async Task delete(CollaborationModel collaboration)
     {
-        throw new NotImplementedException();
+        _context.Collaborations.Remove(collaboration);
+        await _context.SaveChangesAsync();    
     }
 
-    public CollaborationModel update(CollaborationModel collaboration)
+    public async Task<CollaborationModel> update(CollaborationModel collaboration)
     {
-        throw new NotImplementedException();
+        var res = await _context.Collaborations.Where(
+                                    e => e.user_email == collaboration.user_email && 
+                                      e.guid_post == collaboration.guid_post
+                                     ).ExecuteUpdateAsync(
+                                        up =>  up. 
+                                        SetProperty(collab => collab.guid_Collaboration_permission,
+                                                              collaboration.guid_Collaboration_permission)
+                                     );
+        await _context.SaveChangesAsync();    
+
+        return collaboration;
     }
 }

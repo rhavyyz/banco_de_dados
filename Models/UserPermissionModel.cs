@@ -24,5 +24,5 @@ public class UserPermissionModel
     [Required]
     public string name { get; set; }
 
-    public List<UserModel> Users { get; set; }
+    public virtual List<UserModel> Users { get; set; }
 }

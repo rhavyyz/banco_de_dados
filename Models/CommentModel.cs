@@ -29,11 +29,11 @@ public class CommentModel
 
     [ForeignKey(nameof(Post))]
     public Guid guid_post { get; set; }
+    public DateTime publish_date { get; set; }
 
     // Navigation properties
     public UserModel User { get; set; }
     public PostModel Post { get; set; }
 
-    public DateTime publish_date { get; set; }
 
 }

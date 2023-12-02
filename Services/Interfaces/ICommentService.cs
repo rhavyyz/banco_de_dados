@@ -1,7 +1,7 @@
 using Models;
-namespace Repositories.Interfaces;
+namespace Services.Interfaces;
 
-public interface ICommentRepository
+public interface ICommentService
 {
 
 

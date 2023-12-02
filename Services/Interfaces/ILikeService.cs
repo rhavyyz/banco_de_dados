@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Models;
-namespace Repositories.Interfaces;
+namespace Services.Interfaces;
 
-public interface ILikeRepository
+public interface ILikeService
 {
 
     public Task add(LikeModel like);

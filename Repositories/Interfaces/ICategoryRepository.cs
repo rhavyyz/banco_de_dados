@@ -4,8 +4,8 @@ namespace Repositories.Interfaces;
 public interface ICategotyRepository
 {
 
-    public void add(CategoryModel category);
-    public void delete(CategoryModel category);
-    public List<CategoryModel> getByPost(PostModel post);
+    public  Task add(CategoryModel category);
+    public  Task delete(CategoryModel category);
+    public  Task<List<CategoryModel>> getByPost(PostModel post);
 
 }

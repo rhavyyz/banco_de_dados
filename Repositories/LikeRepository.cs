@@ -1,12 +1,11 @@
-using Contexts;
+using System.Data.Entity;
+using WebApi.Helpers;
 using Models;
 using Repositories.Interfaces;
 namespace Repositories;
 
 public class LikeRepository : ILikeRepository
 {
-
-
     private readonly ApplicationContext _context;
 
     public LikeRepository(ApplicationContext context)
@@ -14,23 +13,29 @@ public class LikeRepository : ILikeRepository
         _context = context;
     }
 
-    public void add(UserModel user, PostModel post)
+    public async Task add(LikeModel like)
     {
-        throw new NotImplementedException();
+        await _context.Likes.AddAsync(like);
+        await _context.SaveChangesAsync();      
     }
 
-    public void delete(UserModel user, PostModel post)
+    public async Task delete(LikeModel like)
     {
-        throw new NotImplementedException();
+        _context.Likes.Remove(like);
+        await _context.SaveChangesAsync();  
     }
 
-    public List<LikeModel> getByPost(PostModel post)
+    public async Task<List<LikeModel>> getByPost(PostModel post)
     {
-        throw new NotImplementedException();
+        var p = await _context.Posts.SingleOrDefaultAsync(e => e.guid == post.guid);
+
+        return p.Likes;
     }
 
-    public List<LikeModel> getByUser(UserModel user)
+    public async Task<List<LikeModel>> getByUser(UserModel user)
     {
-        throw new NotImplementedException();
+        var u = await _context.Users.SingleOrDefaultAsync(e => e.email == user.email);
+
+        return u.Likes;
     }
 }

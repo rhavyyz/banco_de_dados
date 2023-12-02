@@ -1,7 +1,7 @@
 using Models;
-namespace Repositories.Interfaces;
+namespace Services.Interfaces;
 
-public interface IUserPermissionRepository
+public interface IUserPermissionService
 {
     public Task add(UserPermissionModel userPermission);
     public Task delete(UserPermissionModel userPermission);

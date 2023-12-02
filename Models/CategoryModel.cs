@@ -21,6 +21,6 @@ public class CategoryModel
     public string name { get; set; } = "";
 
     // Navigation properties
-    public virtual CategoryModel? Parent { get; set; }  = null;
-    public List<PostModel> Posts { get; set; }
+    public CategoryModel? Parent { get; set; }  = null;
+    public virtual List<PostModel> Posts { get; set; }
 }

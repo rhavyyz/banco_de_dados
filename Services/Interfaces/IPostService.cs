@@ -1,7 +1,7 @@
 using Models;
-namespace Repositories.Interfaces;
+namespace Services.Interfaces;
 
-public interface IPostRepository
+public interface IPostService
 {
     public Task add (PostModel post);
     public Task delete (PostModel post);

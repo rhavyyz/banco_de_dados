@@ -1,7 +1,7 @@
 using Models;
-namespace Repositories.Interfaces;
+namespace Services.Interfaces;
 
-public interface ICollaborationPermissionRepository
+public interface ICollaborationPermissionService
 {
     public Task add(CollaborationPermissionModel collaborationPermission);
     public Task delete(CollaborationPermissionModel collaborationPermission);

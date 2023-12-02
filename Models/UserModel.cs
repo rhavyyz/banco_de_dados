@@ -28,11 +28,11 @@ public class UserModel
     public Guid guid_permission { get; set; }
 
     public UserPermissionModel UserPermission { get; set; }
-    public List< PostModel > Posts { get; set; }
-    public List< LikeModel > Likes { get; set; }
+    public virtual List< PostModel > Posts { get; set; }
+    public virtual List< LikeModel > Likes { get; set; }
     
-    public List<CommentModel> Comments { get; set; }
-    public List<CollaborationModel> Collaborations { get; set; }
+    public virtual List<CommentModel> Comments { get; set; }
+    public virtual List<CollaborationModel> Collaborations { get; set; }
 
 
 }
