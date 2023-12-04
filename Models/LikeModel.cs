@@ -12,7 +12,7 @@ public class LikeModel
     [ForeignKey(nameof(Post))]
     public Guid guid_post { get; set; }
 
-    public UserModel User { get; set; }
-    public PostModel Post { get; set; }
+    public virtual UserModel User { get; set; }
+    public virtual PostModel Post { get; set; }
 
 }

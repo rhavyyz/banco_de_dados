@@ -32,8 +32,8 @@ public class CommentModel
     public DateTime publish_date { get; set; }
 
     // Navigation properties
-    public UserModel User { get; set; }
-    public PostModel Post { get; set; }
+    public virtual UserModel User { get; set; }
+    public virtual PostModel Post { get; set; }
 
 
 }

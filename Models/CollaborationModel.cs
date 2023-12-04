@@ -27,7 +27,7 @@ public class CollaborationModel
     public Guid guid_Collaboration_permission { get; set; }
 
     // navigation properties
-    public UserModel User { get; set; }
-    public PostModel Post { get; set; }
-    public CollaborationPermissionModel CollaborationPermission { get; set; }
+    public virtual UserModel User { get; set; }
+    public virtual PostModel Post { get; set; }
+    public virtual CollaborationPermissionModel CollaborationPermission { get; set; }
 }

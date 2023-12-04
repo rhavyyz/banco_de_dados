@@ -1,6 +1,8 @@
 using WebApi.Helpers;
 using Models;
 using Repositories.Interfaces;
+using Util = Utils.Utils;
+using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
 
 
 namespace Repositories;
@@ -26,5 +28,10 @@ public class UserPermissionRepository : IUserPermissionRepository
         _context.UserPermissions.Remove(userPermission);
         await _context.SaveChangesAsync();
 
+    }
+
+    public IQueryable<UserPermissionModel> getAll()
+    {
+        return _context.UserPermissions.AsQueryable();
     }
 }

@@ -2,6 +2,9 @@ using System.Data.Entity;
 using WebApi.Helpers;
 using Models;
 using Repositories.Interfaces;
+using Util = Utils.Utils;
+using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
+
 namespace Repositories;
 
 public class LikeRepository : ILikeRepository
@@ -25,16 +28,20 @@ public class LikeRepository : ILikeRepository
         await _context.SaveChangesAsync();  
     }
 
-    public async Task<List<LikeModel>> getByPost(PostModel post)
+    public List<LikeModel> getByPost(PostModel post)
     {
-        var p = await _context.Posts.SingleOrDefaultAsync(e => e.guid == post.guid);
+        var all = EfExtensions.Include(_context.Posts, e=> e.Likes);
+
+        var p = all.Where(e => e.guid == post.guid).FirstOrDefault(); 
 
         return p.Likes;
     }
 
-    public async Task<List<LikeModel>> getByUser(UserModel user)
+    public List<LikeModel> getByUser(UserModel user)
     {
-        var u = await _context.Users.SingleOrDefaultAsync(e => e.email == user.email);
+        var all = EfExtensions.Include(_context.Users, e=> e.Likes);
+
+        var u = all.Where(e => e.email == user.email).FirstOrDefault(); 
 
         return u.Likes;
     }

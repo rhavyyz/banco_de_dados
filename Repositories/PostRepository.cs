@@ -3,13 +3,15 @@ using WebApi.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Repositories.Interfaces;
+using Util = Utils.Utils;
+using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
+
+
 // using like = EF.Functions.Like; 
 namespace Repositories;
 
 public class PostRepository : IPostRepository
 {
-
-
     private readonly ApplicationContext _context;
 
     public PostRepository(ApplicationContext context)
@@ -31,33 +33,39 @@ public class PostRepository : IPostRepository
 
     public IQueryable<PostModel> getAll()
     {
-        return _context.Posts.AsQueryable();
+        var all = EfExtensions.Include(EfExtensions.Include(_context.Posts, e=> e.Likes), e => e.User);
+        return all;
     }
 
-    public async Task<List<PostModel>> getByCategory(CategoryModel category)
+    public  List<PostModel> getByCategory(CategoryModel category)
     {
-        
-        return await getAll().Where(e => e.Categories.Contains(category)).ToListAsync();
+        return Util.toList<PostModel>( getAll().Where(e => e.Categories.Contains(category)));
     }
 
-    public async Task<List<PostModel>> getByData(DateTime begin, DateTime end)
+    public List<PostModel> getByDate(DateTime begin, DateTime end)
     {
-        return await getAll().Where(e=> e.date >= begin && e.date <= end).ToListAsync();
+        return Util.toList<PostModel>(getAll().Where(e=> e.date >= begin && e.date <= end));
     }
 
     public async Task<PostModel> getByGuid(Guid guid)
     {
-        return await _context.Posts.SingleOrDefaultAsync(e => e.guid == guid);
+        var p = getAll().Where(e => e.guid == guid).FirstOrDefault(); 
+
+        return p;
     }
 
-    public async Task<List<PostModel>> getByTitle(string title)
+    public List<PostModel> getByTitle(string title)
     {
-        return await getAll().Where(e => EF.Functions.Like(e.title,  $"%{title}%")).ToListAsync();
+        return Util.toList<PostModel>(getAll().Where(e => EF.Functions.Like(e.title,  $"%{title}%")));
     }
 
     public async Task<List<PostModel>> getByUser(UserModel user)
     {
-        return (await _context.Users.SingleOrDefaultAsync(e => e.email == user.email)).Posts;
+        var all = EfExtensions.Include(_context.Users, e=> e.Posts);
+
+        var u = all.Where(e => e.email == user.email).FirstOrDefault(); 
+
+        return u.Posts;
     }
 
     public async Task<PostModel> update(PostModel post)

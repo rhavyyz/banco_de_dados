@@ -2,6 +2,9 @@ using System.Data.Entity;
 using WebApi.Helpers;
 using Models;
 using Repositories.Interfaces;
+using Util = Utils.Utils;
+using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
+
 namespace Repositories;
 
 public class CommentRepository : ICommentRepository
@@ -27,9 +30,11 @@ public class CommentRepository : ICommentRepository
         await _context.SaveChangesAsync();  
     }
 
-    public async Task<List<CommentModel>> getByPost(PostModel post)
+    public List<CommentModel> getByPost(PostModel post)
     {
-        var p = await _context.Posts.SingleOrDefaultAsync(e => e.guid == post.guid);
+        var all = EfExtensions.Include(_context.Posts, e=> e.Comments);
+
+        var p = all.Where(e => e.guid == post.guid).FirstOrDefault(); 
 
         return p.Comments;
     }

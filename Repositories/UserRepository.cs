@@ -3,6 +3,9 @@ using WebApi.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Repositories.Interfaces;
+using Util = Utils.Utils;
+using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
+
 namespace Repositories;
 
 public class UserRepository : IUserRepository
@@ -29,17 +32,19 @@ public class UserRepository : IUserRepository
 
     public IQueryable<UserModel> getAll()
     {
-        return _context.Users.AsQueryable();
+        var all = EfExtensions.Include(_context.Users, e=> e.UserPermission);
+
+        return all;
     }
 
-    public async Task<List<UserModel>> getByName(string name)
-    {
-        return await getAll().Where(e => e.name == name).ToListAsync(); 
+    public List<UserModel> getByName(string name)
+    {        
+        return Util.toList<UserModel>(getAll().Where(e => e.name == name)); 
     }
 
-    public async Task<UserModel> getSingle(string email)
+    public UserModel getByEmail(string email)
     {
-        return await getAll().SingleOrDefaultAsync(e => e.email == email); 
+        return getAll().Where(e => e.email == email).FirstOrDefault(); 
     }
 
     public async Task<UserModel> update(UserModel user)
