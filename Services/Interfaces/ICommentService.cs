@@ -13,7 +13,7 @@ public interface ICommentService
             post_title = comment.Post.title,
             publish_date = comment.publish_date,
             user_email = comment.user_email,
-            // username = comment.User.name
+            username = comment.User.name
         };
     }
 

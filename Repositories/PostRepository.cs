@@ -33,7 +33,10 @@ public class PostRepository : IPostRepository
 
     public IQueryable<PostModel> getAll()
     {
-        var all = EfExtensions.Include(EfExtensions.Include(_context.Posts, e=> e.Likes), e => e.User);
+        var all = EfExtensions.Include(
+                  EfExtensions.Include(
+                  EfExtensions.Include(_context.Posts, e=> e.Likes), e => e.User), e => e.Categories);
+
         return all;
     }
 

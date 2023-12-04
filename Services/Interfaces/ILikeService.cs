@@ -11,7 +11,7 @@ public interface ILikeService
         foreach (var like in likes)
             pLikes.likes.Add(new PostLikes.Like{
                 user_email = like.user_email,
-                // username = like.User.name
+                username = like.User.name
                 });
 
         return pLikes;
@@ -22,7 +22,7 @@ public interface ILikeService
         foreach (var like in likes)
             uLikes.likes.Add(new UserLikes.Like{
                 guid_post = like.guid_post,
-                // title = like.Post.title
+                title = like.Post.title
                 });
 
         return uLikes;

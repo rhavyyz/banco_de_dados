@@ -16,13 +16,13 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet("post/{guid_post}")]
-    public async Task<ActionResult<Category>> GetByPost(Guid guid_post)
+    public async Task<ActionResult<List<Category>>> GetByPost(Guid guid_post)
     {
         return Ok(_service.getByPost(new Post{guid = guid_post}));
     }
 
     [HttpGet]
-    public async Task<ActionResult<Category>> Get(Guid guid_post)
+    public async Task<ActionResult<List<Category>>> Get()
     {
         return Ok(_service.getAll());
     }

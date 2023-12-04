@@ -17,11 +17,15 @@ public interface ICollaborationService
     }
     public static CollaborationModel ViewToModel(Collaboration collaboration)
     {
-        return new CollaborationModel{
+        CollaborationModel c = new CollaborationModel{
             user_email = collaboration.user_email,
             guid_post = collaboration.guid_post,
-            guid_Collaboration_permission = collaboration.permission.guid
         };
+
+        if (collaboration.permission != null)
+            c.guid_Collaboration_permission = collaboration.permission.guid;
+
+        return c;
     }
     public Task add(Collaboration collaboration);
     public Task delete(Collaboration collaboration);

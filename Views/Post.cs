@@ -5,9 +5,10 @@ public class Post
     public string title {get; set;}
     public string subtitle {get; set;}
     public string content {get; set;}
-    public DateTime date {get; set;}
+    public DateTime? date {get; set;}
     public bool approved {get; set;}
     public string user_email {get; set;} 
     public string username {get; set;} 
     public int n_likes { get; set; }
+    public List<Category> Categories { get; set; }
 }

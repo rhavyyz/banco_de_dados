@@ -8,6 +8,7 @@
 // );
 
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace Models;
@@ -20,7 +21,10 @@ public class CategoryModel
     [MaxLength(80)]
     public string name { get; set; } = "";
 
+    [ForeignKey(nameof(Parent))]
+    public Guid? guid_parent;
+
     // Navigation properties
-    public virtual CategoryModel? Parent { get; set; }  = null;
+    public virtual CategoryModel Parent { get; set; }  = null;
     public virtual List<PostModel> Posts { get; set; }
 }

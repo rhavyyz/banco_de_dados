@@ -39,7 +39,7 @@ public class UserRepository : IUserRepository
 
     public List<UserModel> getByName(string name)
     {        
-        return Util.toList<UserModel>(getAll().Where(e => e.name == name)); 
+        return Util.toList<UserModel>(getAll().Where(e => EF.Functions.Like(e.name,  $"%{name}%"))); 
     }
 
     public UserModel getByEmail(string email)

@@ -4,6 +4,7 @@ using Models;
 using Repositories.Interfaces;
 using Util = Utils.Utils;
 using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repositories;
 
@@ -30,7 +31,8 @@ public class LikeRepository : ILikeRepository
 
     public List<LikeModel> getByPost(PostModel post)
     {
-        var all = EfExtensions.Include(_context.Posts, e=> e.Likes);
+        var all = EfExtensions.Include(_context.Posts, e=> e.Likes)
+                              .ThenInclude(e=> e.User);
 
         var p = all.Where(e => e.guid == post.guid).FirstOrDefault(); 
 
@@ -39,7 +41,8 @@ public class LikeRepository : ILikeRepository
 
     public List<LikeModel> getByUser(UserModel user)
     {
-        var all = EfExtensions.Include(_context.Users, e=> e.Likes);
+        var all = EfExtensions.Include(_context.Users, e=> e.Likes)
+                              .ThenInclude(e=> e.Post);
 
         var u = all.Where(e => e.email == user.email).FirstOrDefault(); 
 

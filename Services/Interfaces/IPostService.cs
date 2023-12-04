@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Models;
 using Views;
 namespace Services.Interfaces;
+using Util = Utils.Utils;
 
 public interface IPostService
 {
@@ -10,7 +12,7 @@ public interface IPostService
         return new PostModel{
             approved = post.approved,
             content = post.content,
-            date = post.date,
+            date = post.date.HasValue ? (DateTime)post.date : DateTime.Now.ToUniversalTime(),
             guid = post.guid,
             user_email = post.user_email,
             title = post.title,
@@ -29,13 +31,14 @@ public interface IPostService
             subtitle = post.subtitle,            
             n_likes = post.Likes.Count,
             username = post.User.name,
+            Categories = Util.toList<CategoryModel, Category>(post.Categories.AsQueryable(), ICategoryService.ModelToView)
         };
     }
     // public static PostModel PreviewToModel(PostPreview post);
     public static PostPreview ModelToPreview(PostModel post)
     {
         return new PostPreview{
-            date = post.date,
+            date = (DateTime)post.date,
             guid = post.guid,
             subtitle = post.subtitle,
             title = post.title,

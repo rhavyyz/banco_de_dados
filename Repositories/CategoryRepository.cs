@@ -32,7 +32,9 @@ public class CategoryRepository : ICategoryRepository
 
     public IQueryable<CategoryModel> getAll()
     {
-        return _context.Categories.AsQueryable();
+        var all = EfExtensions.Include(_context.Categories, e=> e.Parent);
+
+        return all;
     }
 
     public List<CategoryModel> getByPost(PostModel post)

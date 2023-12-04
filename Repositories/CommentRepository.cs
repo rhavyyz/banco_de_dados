@@ -4,6 +4,7 @@ using Models;
 using Repositories.Interfaces;
 using Util = Utils.Utils;
 using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repositories;
 
@@ -32,7 +33,8 @@ public class CommentRepository : ICommentRepository
 
     public List<CommentModel> getByPost(PostModel post)
     {
-        var all = EfExtensions.Include(_context.Posts, e=> e.Comments);
+        var all = EfExtensions.Include(_context.Posts, e=> e.Comments)
+                              .ThenInclude(e=>e.User);
 
         var p = all.Where(e => e.guid == post.guid).FirstOrDefault(); 
 

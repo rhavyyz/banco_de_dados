@@ -12,6 +12,7 @@
 
 
 
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,7 +30,7 @@ public class CommentModel
 
     [ForeignKey(nameof(Post))]
     public Guid guid_post { get; set; }
-    public DateTime publish_date { get; set; }
+    public DateTime publish_date {get;set;}
 
     // Navigation properties
     public virtual UserModel User { get; set; }
