@@ -4,14 +4,18 @@ namespace Services.Interfaces;
 
 public interface IUserService
 {
-
     public static UserModel ViewToModel(User user)
     {
-        return new UserModel{
+        var u = new UserModel{
             email = user.email,
             name = user.name,
-            guid_permission = user.guid_permission            
         };
+
+                       
+        if( user.permission != null)
+            u.guid_permission = user.permission.guid;
+
+        return u;
     }
     public static User ModelToView(UserModel user)
     {
@@ -20,7 +24,7 @@ public interface IUserService
         return new User{
             email = user.email,
             name = user.name,
-            guid_permission = user.UserPermission.guid
+            permission = IUserPermissionService.ModelToView(user.UserPermission)
         };
     }
     public Task add (User user);

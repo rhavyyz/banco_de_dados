@@ -22,7 +22,7 @@ public class UserModel
     public string name { get; set; }
 
     // [ForeignKey]
-    public int pass_hash { get; set; } = 0;
+    public int pass_hash { get; set; } = -1;
 
     [ForeignKey(nameof(UserPermission))]
     public Guid guid_permission { get; set; }

@@ -5,6 +5,7 @@ using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExten
 
 using Services.Interfaces;
 using Views;
+
 namespace Services;
 
 
@@ -26,6 +27,22 @@ public class CollaborationService : ICollaborationService
     public async Task delete(Collaboration collaboration)
     {
         await _repository.delete(ICollaborationService.ViewToModel(collaboration));
+    }
+
+    public IQueryable<Collaboration> getAll()
+    {
+        return Util.toList(_repository.getAll(), ICollaborationService.ModelToView).AsQueryable();
+    }
+
+    public List<Collaboration> getByPost(Post post)
+    {
+        return Util.toList(_repository.getByPost(IPostService.ViewToModel(post)).AsQueryable(), ICollaborationService.ModelToView);
+        
+    }
+
+    public List<Collaboration> getByUser(User user)
+    {
+        return Util.toList(_repository.getByUser(IUserService.ViewToModel(user)).AsQueryable(), ICollaborationService.ModelToView);
     }
 
     public async Task<Collaboration> update(Collaboration collaboration)

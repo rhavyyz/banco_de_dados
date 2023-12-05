@@ -73,18 +73,23 @@ public class PostRepository : IPostRepository
 
     public async Task<PostModel> update(PostModel post)
     {
-        var res = await _context.Posts.Where(
-                        e => e.guid == post.guid 
-                        ).ExecuteUpdateAsync(
-                            e => e
-                             .SetProperty(p => p.approved , post.approved)
-                             .SetProperty(p => p.subtitle, post.subtitle)
-                             .SetProperty(p => p.title, post.title)
-                             .SetProperty(p => p.content, post.content)
-                             .SetProperty(p => p.date, post.date)
-                            );
-        await _context.SaveChangesAsync();    
+        var p = _context.Posts.Find(post.guid);
 
-        return post;
+        if(post.subtitle != null)
+            p.subtitle = post.subtitle;
+        if(post.content != null)
+            p.content = post.content;
+        if(post.title != null)
+            p.title = post.title;
+        if(post.approved != false)
+            p.approved = post.approved;
+        
+        p.date = DateTime.Now;
+
+        _context.Posts.Update(p);
+        
+        await _context.SaveChangesAsync();
+
+        return p;
     }
 }

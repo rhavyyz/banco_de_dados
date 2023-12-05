@@ -40,6 +40,26 @@ public class CollaborationController : ControllerBase
         return Ok();
     }
 
+    [HttpGet]
+    public ActionResult<IQueryable<Collaboration>> Get()
+    {
+        return Ok(_service.getAll());
+    }
+
+
+
+    [HttpGet("user/{user_email}")]
+    public  ActionResult<List<Collaboration>> GetByUser(string user_email)
+    {
+        return Ok(_service.getByUser(new User{email = user_email}));
+    }
+
+
+    [HttpGet("post/{guid_post}")]
+    public  ActionResult<List<Collaboration>> GetByPost(Guid guid_post)
+    {
+        return Ok(_service.getByPost(new Post{guid = guid_post}));
+    }
 
     
 }

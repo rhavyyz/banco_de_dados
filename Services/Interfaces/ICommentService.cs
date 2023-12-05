@@ -23,7 +23,7 @@ public interface ICommentService
             guid = comment.guid,
             content = comment.content,
             guid_post = comment.guid_post,
-            publish_date = comment.publish_date,
+            publish_date = comment.publish_date.HasValue ? (DateTime)comment.publish_date : DateTime.Now.ToUniversalTime(),
             user_email = comment.user_email
         };
     }

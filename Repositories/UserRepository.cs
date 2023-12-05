@@ -49,17 +49,19 @@ public class UserRepository : IUserRepository
 
     public async Task<UserModel> update(UserModel user)
     {
-        var res = await _context.Users.Where(
-                e => e.email == user.email 
-                ).ExecuteUpdateAsync(
-                    e => e
-                        .SetProperty(u => u.guid_permission , user.guid_permission)
-                        .SetProperty(u => u.name, user.name)
-                        .SetProperty(u => u.pass_hash, user.pass_hash)
-                        .SetProperty(u => u.email, user.email)
-                    );
+        var u = _context.Users.Find(user.email);
+
+        if(user.guid_permission != Guid.Empty)
+            u.guid_permission = user.guid_permission;
+        if(user.name != null)
+            u.name = user.name;
+        if(user.pass_hash != -1)
+            u.pass_hash = user.pass_hash;
+
+        _context.Users.Update(u);
+        
         await _context.SaveChangesAsync();    
 
-        return user;
+        return u;
     }
 }

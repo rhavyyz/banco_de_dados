@@ -7,5 +7,5 @@ public class Comment
     public string username { get; set; }
     public Guid guid_post { get; set; }
     public string post_title { get; set; }
-    public DateTime publish_date { get; set; }
+    public DateTime? publish_date { get; set; }
 }

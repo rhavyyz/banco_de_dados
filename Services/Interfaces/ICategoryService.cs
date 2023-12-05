@@ -17,14 +17,13 @@ public interface ICategoryService
 
         while ((aux = aux.Parent) != null)
         {
-
-
             parent_list.Add(new Category.CategoryElement{
                 guid = aux.guid,
                 name = aux.name
                 });
         
         }
+        
         return new Category{
             guid = category.guid,
             name = category.name,
