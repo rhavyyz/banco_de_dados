@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Models;
 using Views;
-namespace Services.Interfaces;
+namespace Services.Interfacess;
 using Util = Utils.Utils;
 
 public interface IPostService

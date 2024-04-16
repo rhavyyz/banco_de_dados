@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Models;
 using Views;
-namespace Services.Interfaces;
+namespace Services.Interfacess;
 
 public interface ILikeService
 {

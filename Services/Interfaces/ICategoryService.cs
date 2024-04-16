@@ -1,7 +1,7 @@
 using Models;
 using Views;
 
-namespace Services.Interfaces;
+namespace Services.Interfacess;
 public interface ICategoryService
 {
     public static Category ModelToView(CategoryModel category)

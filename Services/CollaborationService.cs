@@ -6,7 +6,8 @@ using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExten
 using Services.Interfaces;
 using Views;
 
-namespace Services;
+namespace Servicess;
+
 
 
 public class CollaborationService : ICollaborationService
