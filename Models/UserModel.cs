@@ -11,6 +11,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Views;
 
 namespace Models;
 
@@ -34,5 +35,15 @@ public class UserModel
     public virtual List<CommentModel> Comments { get; set; }
     public virtual List<CollaborationModel> Collaborations { get; set; }
 
+    public User ModelToView()
+    {
+        Console.WriteLine($"\n\n\n{this.name}\n\n\n");
+
+        return new User{
+            email = this.email,
+            name = this.name,
+            permission = this.UserPermission.toView()
+        };
+    }
 
 }

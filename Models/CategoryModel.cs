@@ -10,6 +10,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Views;
 
 namespace Models;
 
@@ -27,4 +28,32 @@ public class CategoryModel
     // Navigation properties
     public virtual CategoryModel Parent { get; set; }  = null;
     public virtual List<PostModel> Posts { get; set; }
+
+    public Category toView()
+    {
+        CategoryModel aux = new CategoryModel{
+            name = this.name,
+            guid = this.guid,
+            Parent = this.Parent,
+            guid_parent = this.guid_parent,
+        };
+
+        List<Category.CategoryElement> parent_list = new List<Category.CategoryElement>();
+
+        while ((aux = aux.Parent) != null)
+        {
+            parent_list.Add(new Category.CategoryElement{
+                guid = aux.guid,
+                name = aux.name
+                });
+        
+        }
+        
+        return new Category{
+            guid = this.guid,
+            name = this.name,
+            parents = parent_list            
+        };
+    }
+
 }

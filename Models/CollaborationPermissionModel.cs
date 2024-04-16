@@ -7,6 +7,7 @@
 
 
 using System.ComponentModel.DataAnnotations;
+using Views;
 
 namespace Models;
 
@@ -16,4 +17,12 @@ public class CollaborationPermissionModel
     public Guid guid {get; set;}
 
     public string name {get; set;}
+
+    public CollaborationPermission toView()
+    {
+        return new CollaborationPermission{
+            guid = this.guid,
+            name = this.name
+        };
+    }
 }

@@ -1,3 +1,5 @@
+using Models;
+
 namespace Views;
 public class Comment
 {
@@ -8,4 +10,15 @@ public class Comment
     public Guid guid_post { get; set; }
     public string post_title { get; set; }
     public DateTime? publish_date { get; set; }
+
+    public CommentModel toModel()
+    {
+        return new CommentModel{
+            guid = this.guid,
+            content = this.content,
+            guid_post = this.guid_post,
+            publish_date = this.publish_date.HasValue ? (DateTime)this.publish_date : DateTime.Now.ToUniversalTime(),
+            user_email = this.user_email
+        };
+    }
 }

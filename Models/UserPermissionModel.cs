@@ -10,6 +10,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Views;
 
 namespace Models;
 
@@ -25,4 +26,12 @@ public class UserPermissionModel
     public string name { get; set; }
 
     public virtual List<UserModel> Users { get; set; }
+
+    public UserPermission toView()
+    {
+        return new UserPermission{
+            guid = this.guid,
+            name = this.name
+        };
+    }
 }

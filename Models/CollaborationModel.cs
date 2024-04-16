@@ -12,6 +12,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Views;
 
 namespace Models;
 
@@ -30,4 +31,16 @@ public class CollaborationModel
     public virtual UserModel User { get; set; }
     public virtual PostModel Post { get; set; }
     public virtual CollaborationPermissionModel CollaborationPermission { get; set; }
+
+
+    public Collaboration toView()
+    {
+        return new Collaboration{
+            guid_post = this.guid_post,
+            post_title = this.Post.title,
+            user_email = this.user_email,
+            user_name = this.User.name,
+            permission = this.CollaborationPermission.toView()
+        };
+    }
 }

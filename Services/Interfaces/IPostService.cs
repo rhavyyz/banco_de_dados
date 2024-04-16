@@ -7,43 +7,7 @@ using Util = Utils.Utils;
 public interface IPostService
 {
 
-    public static PostModel ViewToModel(Post post)
-    {
-        return new PostModel{
-            approved = post.approved,
-            content = post.content,
-            date = post.date.HasValue ? (DateTime)post.date : DateTime.Now.ToUniversalTime(),
-            guid = post.guid,
-            user_email = post.user_email,
-            title = post.title,
-            subtitle = post.subtitle,            
-        };
-    }
-    public static Post ModelToView(PostModel post)
-    {
-        return new Post {
-            approved = post.approved,
-            content = post.content,
-            date = post.date,
-            guid = post.guid,
-            user_email = post.user_email,
-            title = post.title,
-            subtitle = post.subtitle,            
-            n_likes = post.Likes.Count,
-            username = post.User.name,
-            Categories = Util.toList<CategoryModel, Category>(post.Categories.AsQueryable(), ICategoryService.ModelToView)
-        };
-    }
-    // public static PostModel PreviewToModel(PostPreview post);
-    public static PostPreview ModelToPreview(PostModel post)
-    {
-        return new PostPreview{
-            date = (DateTime)post.date,
-            guid = post.guid,
-            subtitle = post.subtitle,
-            title = post.title,
-        };
-    }
+
     public Task add (Post post);
     public Task delete (Post post);
     public Task<Post> update (Post post);

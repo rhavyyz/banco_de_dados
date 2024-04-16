@@ -14,6 +14,8 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Utils;
+using Views;
 
 namespace Models;
 
@@ -43,4 +45,30 @@ public class PostModel
     public  List<CommentModel> Comments { get; set; }
 
     // public override void On
+
+    public PostPreview ToPreview()
+    {
+        return new PostPreview{
+            date = (DateTime)this.date,
+            guid = this.guid,
+            subtitle = this.subtitle,
+            title = this.title,
+        };
+    }
+
+    public Post toView()
+    {
+        return new Post {
+            approved = this.approved,
+            content = this.content,
+            date = this.date,
+            guid = this.guid,
+            user_email = this.user_email,
+            title = this.title,
+            subtitle = this.subtitle,            
+            n_likes = this.Likes.Count,
+            username = this.User.name,
+            Categories = Utils.toList<CategoryModel, Category>(this.Categories.AsQueryable(), ICategoryService.ModelToView)
+        };
+    }
 }

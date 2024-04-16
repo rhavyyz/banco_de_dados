@@ -15,6 +15,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Views;
 
 namespace Models;
 
@@ -36,5 +37,17 @@ public class CommentModel
     public virtual UserModel User { get; set; }
     public virtual PostModel Post { get; set; }
 
+    public Comment ModelToView() 
+    {
+        return new Comment{
+            guid = this.guid,
+            guid_post = this.guid_post,
+            content = this.content, 
+            post_title = this.Post.title,
+            publish_date = this.publish_date,
+            user_email = this.user_email,
+            username = this.User.name
+        };
+    }
 
 }

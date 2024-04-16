@@ -1,3 +1,5 @@
+using Models;
+
 namespace Views;
 public class Post
 {
@@ -11,4 +13,17 @@ public class Post
     public string username {get; set;} 
     public int n_likes { get; set; }
     public List<Category> Categories { get; set; }
+
+    public PostModel toModel()
+    {
+        return new PostModel{
+            approved = this.approved,
+            content = this.content,
+            date = this.date.HasValue ? (DateTime)this.date : DateTime.Now.ToUniversalTime(),
+            guid = this.guid,
+            user_email = this.user_email,
+            title = this.title,
+            subtitle = this.subtitle,            
+        };
+    }
 }
