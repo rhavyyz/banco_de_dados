@@ -1,4 +1,4 @@
-namespace Views;
+namespace Entities.Views;
 public class PostPreview
 {
     public Guid guid{get; set;}

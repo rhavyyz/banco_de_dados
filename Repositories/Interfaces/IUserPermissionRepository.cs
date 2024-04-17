@@ -1,9 +1,10 @@
-using Models;
+using Entities.Models;
+using Entities.Views;
 namespace Repositories.Interfaces;
 
 public interface IUserPermissionRepository
 {
-    public Task add(UserPermissionModel userPermission);
-    public Task delete(UserPermissionModel userPermission);
-    public IQueryable<UserPermissionModel> getAll();
+    public Task add(UserPermission userPermission);
+    public Task delete(UserPermission userPermission);
+    public IQueryable<UserPermission> getAll();
 }

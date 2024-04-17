@@ -1,10 +1,11 @@
 using System.Data.Entity;
 using WebApi.Helpers;
 using Microsoft.EntityFrameworkCore;
-using Models;
 using Repositories.Interfaces;
 using Util = Utils.Utils;
 using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
+using Entities.Views;
+using Entities.Models;
 
 
 // using like = EF.Functions.Like; 
@@ -19,20 +20,21 @@ public class PostRepository : IPostRepository
         _context = context;
     }
 
-    public async Task add(PostModel post)
+    public async Task add(Post post)
     {
-        await _context.Posts.AddAsync(post);
+        await _context.Posts.AddAsync(post.toModel());
         await _context.SaveChangesAsync();  
     }
 
-    public async Task delete(PostModel post)
+    public async Task delete(Post post)
     {
-        _context.Posts.Remove(post);
+        _context.Posts.Remove(post.toModel());
         await _context.SaveChangesAsync();  
     }
 
-    public IQueryable<PostModel> getAll()
+    public IQueryable<PostModel> getAllModels()
     {
+
         var all = EfExtensions.Include(
                   EfExtensions.Include(
                   EfExtensions.Include(_context.Posts, e=> e.Likes), e => e.User), e => e.Categories);
@@ -40,38 +42,49 @@ public class PostRepository : IPostRepository
         return all;
     }
 
-    public  List<PostModel> getByCategory(CategoryModel category)
+    public IQueryable<PostPreview> getAll()
     {
-        return Util.toList<PostModel>( getAll().Where(e => e.Categories.Contains(category)));
+        return getAllModels().Select(p => p.ToPreview());
     }
 
-    public List<PostModel> getByDate(DateTime begin, DateTime end)
+    public  IQueryable<PostPreview> getByCategory(Category category)
     {
-        return Util.toList<PostModel>(getAll().Where(e=> e.date >= begin && e.date <= end));
+        return getAllModels()
+                    .Where(e => e.Categories.Contains(category.toModel()))
+                    .Select(p => p.ToPreview());
     }
 
-    public async Task<PostModel> getByGuid(Guid guid)
+    public IQueryable<PostPreview> getByDate(DateTime begin, DateTime end)
     {
-        var p = getAll().Where(e => e.guid == guid).FirstOrDefault(); 
-
-        return p;
+        return getAllModels()
+                    .Where(e=> e.date >= begin && e.date <= end)
+                    .Select(p => p.ToPreview());
     }
 
-    public List<PostModel> getByTitle(string title)
+    public async Task<Post> getByGuid(Guid guid)
     {
-        return Util.toList<PostModel>(getAll().Where(e => EF.Functions.Like(e.title,  $"%{title}%")));
+        var p = getAllModels().Where(e => e.guid == guid).FirstOrDefault(); 
+
+        return p.toView();
     }
 
-    public async Task<List<PostModel>> getByUser(UserModel user)
+    public IQueryable<PostPreview> getByTitle(string title)
+    {
+        return getAllModels()
+                    .Where(e => EF.Functions.Like(e.title,  $"%{title}%"))
+                    .Select(p => p.ToPreview());
+    }
+
+    public async Task<IQueryable<PostPreview>> getByUser(User user)
     {
         var all = EfExtensions.Include(_context.Users, e=> e.Posts);
 
         var u = all.Where(e => e.email == user.email).FirstOrDefault(); 
 
-        return u.Posts;
+        return u.Posts.Select(p => p.ToPreview()).AsQueryable();
     }
 
-    public async Task<PostModel> update(PostModel post)
+    public async Task<Post> update(Post post)
     {
         var p = _context.Posts.Find(post.guid);
 
@@ -90,6 +103,6 @@ public class PostRepository : IPostRepository
         
         await _context.SaveChangesAsync();
 
-        return p;
+        return p.toView();
     }
 }

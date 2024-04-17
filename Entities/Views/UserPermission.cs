@@ -1,11 +1,11 @@
-using Models;
+using Entities.Models;
 
-namespace Views;
+namespace Entities.Views;
 public class UserPermission
 {
     public Guid guid { get; set; } 
     public string name { get; set; }
-    public UserPermissionModel ViewToModel()
+    public UserPermissionModel toModel()
     {
         return new UserPermissionModel{
             guid = this.guid,

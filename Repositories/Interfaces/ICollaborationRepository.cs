@@ -1,13 +1,14 @@
 namespace Repositories.Interfaces;
-using Models;
+using Entities.Models;
+using Entities.Views;
 
 public interface ICollaborationRepository
 {
-    public Task add(CollaborationModel collaboration);
-    public Task delete(CollaborationModel collaboration);
-    public Task<CollaborationModel> update(CollaborationModel collaboration);
-    public IQueryable<CollaborationModel> getAll();
-    public IQueryable<CollaborationModel> getByPost(PostModel post);
-    public IQueryable<CollaborationModel> getByUser(UserModel user);
+    public Task add(Collaboration collaboration);
+    public Task delete(Collaboration collaboration);
+    public Task<Collaboration> update(Collaboration collaboration);
+    public IQueryable<Collaboration> getAll();
+    public IQueryable<Collaboration> getByPost(Post post);
+    public IQueryable<Collaboration> getByUser(User user);
 
 }

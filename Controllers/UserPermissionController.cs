@@ -1,7 +1,7 @@
 using System.Data.Entity;
 using Microsoft.AspNetCore.Mvc;
-using Services.Interfaces;
-using Views;
+using Repositories.Interfaces;
+using Entities.Views;
 
 namespace banco_de_dados.Controllers;
 
@@ -9,23 +9,23 @@ namespace banco_de_dados.Controllers;
 [Route("[controller]")]
 public class UserPermissionController : ControllerBase
 {
-    private readonly IUserPermissionService _service; 
+    private readonly IUserPermissionRepository _rep; 
 
-    public UserPermissionController(IUserPermissionService service)
+    public UserPermissionController(IUserPermissionRepository rep)
     {
-        _service = service;
+        _rep = rep;
     }
 
     [HttpGet]
     public ActionResult<IQueryable<UserPermission>> Get()
     {
-        return Ok( _service.getAll());
+        return Ok( _rep.getAll());
     }
 
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] UserPermission user_permission)
     {
-        await _service.add(user_permission);
+        await _rep.add(user_permission);
 
         return Ok();
     }
@@ -33,7 +33,7 @@ public class UserPermissionController : ControllerBase
     [HttpDelete("{guid}")]
     public async Task<ActionResult> Delete(Guid guid)
     {
-        await _service.delete(new UserPermission{guid = guid});
+        await _rep.delete(new UserPermission{guid = guid});
         return Ok();
     }
 }

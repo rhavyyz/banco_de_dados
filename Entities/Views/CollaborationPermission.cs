@@ -1,5 +1,5 @@
-using Models;
-namespace Views;
+using Entities.Models;
+namespace Entities.Views;
 
 public class CollaborationPermission //: CollaborationPermissionModel
 {

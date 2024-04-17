@@ -1,9 +1,10 @@
-using Models;
+using Entities.Models;
+using Entities.Views;
 namespace Repositories.Interfaces;
 
 public interface ICollaborationPermissionRepository
 {
-    public Task add(CollaborationPermissionModel collaborationPermission);
-    public Task delete(CollaborationPermissionModel collaborationPermission);
-    public IQueryable<CollaborationPermissionModel> getAll();
+    public Task add(CollaborationPermission collaborationPermission);
+    public Task delete(CollaborationPermission collaborationPermission);
+    public IQueryable<CollaborationPermission> getAll();
 }

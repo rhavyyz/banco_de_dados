@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Services.Interfaces;
-using Views;
+using Repositories.Interfaces;
+using Entities.Views;
 
 namespace banco_de_dados.Controllers;
 
@@ -8,30 +8,30 @@ namespace banco_de_dados.Controllers;
 [Route("[controller]")]
 public class CollaborationPermissionController : ControllerBase
 {
-    private readonly ICollaborationPermissionService _service; 
+    private readonly ICollaborationPermissionRepository _rep; 
 
-    public CollaborationPermissionController(ICollaborationPermissionService service)
+    public CollaborationPermissionController(ICollaborationPermissionRepository rep)
     {
-        _service = service;
+        _rep = rep;
     }
 
     [HttpGet]
     public ActionResult<CollaborationPermission> Get()
     {
-        return Ok(_service.getAll());
+        return Ok(_rep.getAll());
     }
 
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] CollaborationPermission collaboration_permission)
     {
-        await _service.add(collaboration_permission);
+        await _rep.add(collaboration_permission);
         return Ok();
     }
 
     [HttpDelete("{guid}")]
     public async Task<ActionResult<CollaborationPermission>> Delete(Guid guid)
     {
-        await _service.delete(new CollaborationPermission{
+        await _rep.delete(new CollaborationPermission{
             guid = guid
         });
     

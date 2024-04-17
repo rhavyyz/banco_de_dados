@@ -1,11 +1,12 @@
-using Models;
+using Entities.Models;
 using System.Linq;
+using Entities.Views;
 
 namespace Repositories.Interfaces;
 public interface ICategoryRepository
 {
-    public Task add(CategoryModel category);
-    public Task delete(CategoryModel category);
-    public List<CategoryModel> getByPost(PostModel post);
-    public IQueryable<CategoryModel> getAll();
+    public Task add(Category category);
+    public Task delete(Category category);
+    public IQueryable<Category> getByPost(Post post);
+    public IQueryable<Category> getAll();
 }

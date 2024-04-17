@@ -7,9 +7,9 @@
 
 
 using System.ComponentModel.DataAnnotations;
-using Views;
+using Entities.Views;
 
-namespace Models;
+namespace Entities.Models;
 
 public class CollaborationPermissionModel
 {

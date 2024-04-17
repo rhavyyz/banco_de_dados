@@ -5,8 +5,7 @@ using Util = Utils.Utils;
 using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
 
 using Repositories;
-using Services.Interfaces;
-using Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,14 +24,14 @@ builder.Services.AddScoped<IUserPermissionRepository, UserPermissionRepository>(
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 
 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ICommentService, CommentService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<ICollaborationService, CollaborationService>();
-builder.Services.AddScoped<ICollaborationPermissionService, CollaborationPermissionService>();
-builder.Services.AddScoped<ILikeService, LikeService>();
-builder.Services.AddScoped<IUserPermissionService, UserPermissionService>();
-builder.Services.AddScoped<IPostService, PostService>();
+// builder.Services.AddScoped<IUserService, UserService>();
+// builder.Services.AddScoped<ICommentService, CommentService>();
+// builder.Services.AddScoped<ICategoryService, CategoryService>();
+// builder.Services.AddScoped<ICollaborationService, CollaborationService>();
+// builder.Services.AddScoped<ICollaborationPermissionService, CollaborationPermissionService>();
+// builder.Services.AddScoped<ILikeService, LikeService>();
+// builder.Services.AddScoped<IUserPermissionService, UserPermissionService>();
+// builder.Services.AddScoped<IPostService, PostService>();
 
 
 

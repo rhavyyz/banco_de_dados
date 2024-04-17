@@ -10,9 +10,9 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Views;
+using Entities.Views;
 
-namespace Models;
+namespace Entities.Models;
 
 [PrimaryKey(nameof(guid))]
 [Index(nameof(name), IsUnique = true)]

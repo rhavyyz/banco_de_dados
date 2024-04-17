@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Services.Interfaces;
-using Views;
+using Repositories.Interfaces;
+using Entities.Views;
 
 namespace banco_de_dados.Controllers;
 
@@ -8,36 +8,36 @@ namespace banco_de_dados.Controllers;
 [Route("[controller]")]
 public class CategoryController : ControllerBase
 {
-    private readonly ICategoryService _service; 
+    private readonly ICategoryRepository _rep; 
 
-    public CategoryController(ICategoryService service)
+    public CategoryController(ICategoryRepository service)
     {
-        _service = service;
+        _rep = service;
     }
 
     [HttpGet("post/{guid_post}")]
-    public async Task<ActionResult<List<Category>>> GetByPost(Guid guid_post)
+    public ActionResult<List<Category>> GetByPost(Guid guid_post)
     {
-        return Ok(_service.getByPost(new Post{guid = guid_post}));
+        return Ok(_rep.getByPost(new Post{guid = guid_post}));
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Category>>> Get()
+    public ActionResult<List<Category>> Get()
     {
-        return Ok(_service.getAll());
+        return Ok(_rep.getAll());
     }
 
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] Category category)
     {
-        await _service.add(category);
+        await _rep.add(category);
         return Ok();
     }
     
     [HttpDelete("{guid}")]
     public async Task<ActionResult> Delete(Guid guid)
     {
-        await _service.delete(new Category{guid = guid});
+        await _rep.delete(new Category{guid = guid});
     
         return Ok();
     }

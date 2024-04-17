@@ -1,9 +1,9 @@
 
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using Views;
+using Entities.Views;
 
-namespace Models;
+namespace Entities.Models;
 
 [PrimaryKey(nameof(user_email), nameof(guid_post))]
 public class LikeModel

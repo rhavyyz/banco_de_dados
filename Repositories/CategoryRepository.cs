@@ -3,8 +3,9 @@ using Util = Utils.Utils;
 using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
 
 using WebApi.Helpers;
-using Models;
+using Entities.Views;
 using System.Data.Entity;
+using Entities.Models;
 
 namespace Repositories;
 
@@ -12,37 +13,38 @@ public class CategoryRepository : ICategoryRepository
 {
 
     private readonly ApplicationContext _context;
-
     public CategoryRepository(ApplicationContext context)
     {
         _context = context;
     }
 
-    public async Task add(CategoryModel category)
+    public async Task add(Category category)
     {
-        await _context.Categories.AddAsync(category);
+        await _context.Categories.AddAsync(category.toModel());
         await _context.SaveChangesAsync();
     }
 
-    public async Task delete(CategoryModel category)
+    public async Task delete(Category category)
     {
-        _context.Categories.Remove(category);
+        _context.Categories.Remove(category.toModel());
         await _context.SaveChangesAsync();
     }
 
-    public IQueryable<CategoryModel> getAll()
+    public IQueryable<Category> getAll()
     {
-        var all = EfExtensions.Include(_context.Categories, e=> e.Parent);
+        IQueryable<CategoryModel> all = EfExtensions.Include(_context.Categories, e=> e.Parent);
 
-        return all;
+        return all.Select(c => c.toView());
     }
 
-    public List<CategoryModel> getByPost(PostModel post)
+    public IQueryable<Category> getByPost(Post post)
     {
         var all = EfExtensions.Include(_context.Posts, e=> e.Categories);
 
         var p = all.Where(e => e.guid == post.guid).FirstOrDefault(); 
 
-        return p.Categories;
+
+
+        return p.Categories.Select(c=> c.toView()).AsQueryable();
     }
 }

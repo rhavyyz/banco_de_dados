@@ -1,16 +1,17 @@
-using Models;
+using Entities.Models;
+using Entities.Views;
 namespace Repositories.Interfaces;
 
 public interface IPostRepository
 {
-    public Task add (PostModel post);
-    public Task delete (PostModel post);
-    public Task<PostModel> update (PostModel post);
-    public IQueryable<PostModel> getAll();
-    public List<PostModel> getByTitle (string title);
-    public List<PostModel> getByCategory (CategoryModel category);
-    public Task<List<PostModel>> getByUser (UserModel user);
-    public List<PostModel> getByDate (DateTime begin, DateTime end);
+    public Task add (Post post);
+    public Task delete (Post post);
+    public Task<Post> update (Post post);
+    public IQueryable<PostPreview> getAll();
+    public IQueryable<PostPreview> getByTitle (string title);
+    public IQueryable<PostPreview> getByCategory (Category category);
+    public Task<IQueryable<PostPreview>> getByUser (User user);
+    public IQueryable<PostPreview> getByDate (DateTime begin, DateTime end);
 
-    public Task<PostModel> getByGuid(Guid guid);
+    public Task<Post> getByGuid(Guid guid);
 }

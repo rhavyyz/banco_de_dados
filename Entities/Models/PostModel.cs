@@ -14,10 +14,9 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Utils;
-using Views;
+using Entities.Views;
 
-namespace Models;
+namespace Entities.Models;
 
 public class PostModel
 {
@@ -68,7 +67,7 @@ public class PostModel
             subtitle = this.subtitle,            
             n_likes = this.Likes.Count,
             username = this.User.name,
-            Categories = Utils.toList<CategoryModel, Category>(this.Categories.AsQueryable(), ICategoryService.ModelToView)
+            Categories = this.Categories.Select(c => c.toView()).ToList()
         };
     }
 }

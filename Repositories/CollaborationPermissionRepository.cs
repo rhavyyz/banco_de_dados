@@ -1,8 +1,8 @@
 using WebApi.Helpers;
-using Models;
 using Repositories.Interfaces;
 using Util = Utils.Utils;
 using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
+using Entities.Views;
 
 
 namespace Repositories;
@@ -16,20 +16,20 @@ public class CollaborationPermissionRepository : ICollaborationPermissionReposit
     {
         _context = context;
     }
-    public async Task add(CollaborationPermissionModel collaborationPermission)
+    public async Task add(CollaborationPermission collaborationPermission)
     {
-        await _context.CollaborationPermissions.AddAsync(collaborationPermission);
+        await _context.CollaborationPermissions.AddAsync(collaborationPermission.toModel());
         await _context.SaveChangesAsync();    
     }
 
-    public async Task delete(CollaborationPermissionModel collaborationPermission)
+    public async Task delete(CollaborationPermission collaborationPermission)
     {
-        _context.CollaborationPermissions.Remove(collaborationPermission);
+        _context.CollaborationPermissions.Remove(collaborationPermission.toModel());
         await _context.SaveChangesAsync();    
     }
 
-    public IQueryable<CollaborationPermissionModel> getAll()
+    public IQueryable<CollaborationPermission> getAll()
     {
-        return _context.CollaborationPermissions.AsQueryable();
+        return _context.CollaborationPermissions.Select(c => c.toView());
     }
 }

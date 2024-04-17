@@ -1,6 +1,6 @@
-using Models;
+using Entities.Models;
 
-namespace Views;
+namespace Entities.Views;
 public class UserLikes
 {
     public struct Like 

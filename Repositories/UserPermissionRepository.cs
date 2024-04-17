@@ -1,8 +1,9 @@
 using WebApi.Helpers;
-using Models;
 using Repositories.Interfaces;
 using Util = Utils.Utils;
 using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
+using Entities.Views;
+using Entities.Models;
 
 
 namespace Repositories;
@@ -17,21 +18,26 @@ public class UserPermissionRepository : IUserPermissionRepository
         _context = context;
     }
 
-    public async Task add(UserPermissionModel userPermission)
+    public async Task add(UserPermission userPermission)
     {
-        await _context.UserPermissions.AddAsync(userPermission);
+        await _context.UserPermissions.AddAsync(userPermission.toModel());
         await _context.SaveChangesAsync();
     }
 
-    public async Task delete(UserPermissionModel userPermission)
+    public async Task delete(UserPermission userPermission)
     {
-        _context.UserPermissions.Remove(userPermission);
+        _context.UserPermissions.Remove(userPermission.toModel());
         await _context.SaveChangesAsync();
 
     }
 
-    public IQueryable<UserPermissionModel> getAll()
+    public IQueryable<UserPermissionModel> getAllModels()
     {
-        return _context.UserPermissions.AsQueryable();
+        return _context.UserPermissions;
+    }
+
+    public IQueryable<UserPermission> getAll()
+    {
+        return getAllModels().Select(u => u.toView()).AsQueryable();
     }
 }

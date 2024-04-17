@@ -10,9 +10,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using Views;
+using Entities.Views;
 
-namespace Models;
+namespace Entities.Models;
 
 public class CategoryModel
 {

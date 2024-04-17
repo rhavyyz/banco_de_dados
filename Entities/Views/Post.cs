@@ -1,6 +1,6 @@
-using Models;
+using Entities.Models;
 
-namespace Views;
+namespace Entities.Views;
 public class Post
 {
     public Guid guid{get; set;}

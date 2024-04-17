@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Services.Interfaces;
-using Views;
+using Repositories.Interfaces;
+using Entities.Views;
 
 namespace banco_de_dados.Controllers;
 
@@ -8,17 +8,17 @@ namespace banco_de_dados.Controllers;
 [Route("[controller]")]
 public class CollaborationController : ControllerBase
 {
-    private readonly ICollaborationService _service; 
+    private readonly ICollaborationRepository _rep; 
 
-    public CollaborationController(ICollaborationService service)
+    public CollaborationController(ICollaborationRepository rep)
     {
-        _service = service;
+        _rep = rep;
     }
 
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] Collaboration collaboration)
     {
-        await _service.add(collaboration);
+        await _rep.add(collaboration);
         return Ok();
 //return CreatedAtAction( nameof(collaboration), collaboration);
     }
@@ -26,13 +26,13 @@ public class CollaborationController : ControllerBase
     [HttpPut]
     public async Task<ActionResult<Collaboration>> Update([FromBody] Collaboration collaboration)
     {
-        return Ok(await _service.update(collaboration));
+        return Ok(await _rep.update(collaboration));
     }
     
     [HttpDelete("{guid_post}/{user_email}")]
     public async Task<ActionResult<Collaboration>> Delete(Guid guid_post, string user_email)
     {
-        await _service.delete(new Collaboration{
+        await _rep.delete(new Collaboration{
             guid_post = guid_post,
             user_email = user_email
         });
@@ -43,7 +43,7 @@ public class CollaborationController : ControllerBase
     [HttpGet]
     public ActionResult<IQueryable<Collaboration>> Get()
     {
-        return Ok(_service.getAll());
+        return Ok(_rep.getAll());
     }
 
 
@@ -51,14 +51,14 @@ public class CollaborationController : ControllerBase
     [HttpGet("user/{user_email}")]
     public  ActionResult<List<Collaboration>> GetByUser(string user_email)
     {
-        return Ok(_service.getByUser(new User{email = user_email}));
+        return Ok(_rep.getByUser(new User{email = user_email}));
     }
 
 
     [HttpGet("post/{guid_post}")]
     public  ActionResult<List<Collaboration>> GetByPost(Guid guid_post)
     {
-        return Ok(_service.getByPost(new Post{guid = guid_post}));
+        return Ok(_rep.getByPost(new Post{guid = guid_post}));
     }
 
     

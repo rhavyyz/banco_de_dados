@@ -1,7 +1,7 @@
 namespace WebApi.Helpers;
 
 using Microsoft.EntityFrameworkCore;
-using Models;
+using Entities.Models;
 
 public class ApplicationContext : DbContext
 {

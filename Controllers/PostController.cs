@@ -1,7 +1,7 @@
 using System.Data.Entity;
 using Microsoft.AspNetCore.Mvc;
-using Services.Interfaces;
-using Views;
+using Repositories.Interfaces;
+using Entities.Views;
 
 namespace banco_de_dados.Controllers;
 
@@ -9,65 +9,65 @@ namespace banco_de_dados.Controllers;
 [Route("[controller]")]
 public class PostController : ControllerBase
 {
-    private readonly IPostService _service; 
+    private readonly IPostRepository _rep; 
 
-    public PostController(IPostService service)
+    public PostController(IPostRepository rep)
     {
-        _service = service;
+        _rep = rep;
     }
 
     [HttpGet("preview")]
     public ActionResult<List<PostPreview>> GetPreviews()
     {
-        return Ok(_service.getAll());
+        return Ok(_rep.getAll());
     }
    
     [HttpGet("preview/{guid_category}")]
-    public async Task<ActionResult<List<PostPreview>>> GetPreviewsByCategory(Guid guid_category)
+    public ActionResult<IQueryable<PostPreview>> GetPreviewsByCategory(Guid guid_category)
     {
-        return Ok(await _service.getByCategory(new Category{guid = guid_category}));
+        return Ok(_rep.getByCategory(new Category{guid = guid_category}));
     }
    
     [HttpGet("preview/date/{begin}/{end}")]
-    public async Task<ActionResult<List<PostPreview>>> GetPreviewByDate(DateTime begin, DateTime end)
+    public  ActionResult<List<PostPreview>> GetPreviewByDate(DateTime begin, DateTime end)
     {
-        return Ok(_service.getByDate(begin, end));
+        return Ok(_rep.getByDate(begin, end));
     }
     [HttpGet("preview/title/{title}")]
-    public async Task<ActionResult<List<PostPreview>>> GetPreviewByTitle(string title)
+    public ActionResult<List<PostPreview>> GetPreviewByTitle(string title)
     {
-        return Ok(_service.getByTitle(title));
+        return Ok(_rep.getByTitle(title));
     }
 
    [HttpGet("preview/user/{user_email}")]
-    public async Task<ActionResult<List<PostPreview>>> GetPreviewByUserEmail(string user_email)
+    public ActionResult<List<PostPreview>> GetPreviewByUserEmail(string user_email)
     {
-        return Ok(await _service.getByUser(new User{email = user_email}));
+        return Ok( _rep.getByUser(new User{email = user_email}));
     }
     
     [HttpGet("{guid}")]
     public async Task<ActionResult<List<Post>>> GetByGuid(Guid guid)
     {
-        return Ok(await _service.getByGuid(guid));
+        return Ok(await _rep.getByGuid(guid));
     }
 
     [HttpPut]
     public async Task<ActionResult<Post>> Update([FromBody] Post post)
     {
-        return Ok(await _service.update(post));
+        return Ok(await _rep.update(post));
     }
 
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] Post post)
     {
-        await _service.add(post);
+        await _rep.add(post);
         return Ok();
     }
 
     [HttpDelete("{guid}")]
     public async Task<IActionResult> Delete(Guid guid)
     {
-        await _service.delete(new Post{guid = guid});
+        await _rep.delete(new Post{guid = guid});
         return Ok();
     }
 

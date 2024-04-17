@@ -15,9 +15,9 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Views;
+using Entities.Views;
 
-namespace Models;
+namespace Entities.Models;
 
 public class CommentModel
 {
@@ -37,7 +37,7 @@ public class CommentModel
     public virtual UserModel User { get; set; }
     public virtual PostModel Post { get; set; }
 
-    public Comment ModelToView() 
+    public Comment toView() 
     {
         return new Comment{
             guid = this.guid,
