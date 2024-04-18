@@ -15,6 +15,7 @@ public class ApplicationContext : DbContext
     public DbSet<CollaborationModel> Collaborations { get; set; }
     public DbSet<CollaborationPermissionModel> CollaborationPermissions { get; set; }
     public DbSet<CommentModel> Comments { get; set; }
+    public DbSet<AuthModel> Auth { get; set; }
     public DbSet<UserModel> Users { get; set; }
     public DbSet<PostModel> Posts { get; set; }
     public DbSet<UserPermissionModel> UserPermissions { get; set; }

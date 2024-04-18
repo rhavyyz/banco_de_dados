@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Repositories.Interfaces;
 using Entities.Views;
 
-namespace banco_de_dados.Controllers;
+namespace Controllers;
 
 [ApiController]
 [Route("[controller]")]

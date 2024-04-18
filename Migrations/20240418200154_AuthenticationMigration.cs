@@ -6,25 +6,37 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace bancodedados.Migrations
 {
     /// <inheritdoc />
-    public partial class AllModels : Migration
+    public partial class AuthenticationMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Auth",
+                columns: table => new
+                {
+                    useremail = table.Column<string>(name: "user_email", type: "text", nullable: false),
+                    password = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Auth", x => x.useremail);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
                     guid = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: false),
-                    Parentguid = table.Column<Guid>(type: "uuid", nullable: true)
+                    name = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: true),
+                    guidparent = table.Column<Guid>(name: "guid_parent", type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.guid);
                     table.ForeignKey(
-                        name: "FK_Categories_Categories_Parentguid",
-                        column: x => x.Parentguid,
+                        name: "FK_Categories_Categories_guid_parent",
+                        column: x => x.guidparent,
                         principalTable: "Categories",
                         principalColumn: "guid");
                 });
@@ -34,7 +46,7 @@ namespace bancodedados.Migrations
                 columns: table => new
                 {
                     guid = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false)
+                    name = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -58,13 +70,19 @@ namespace bancodedados.Migrations
                 columns: table => new
                 {
                     email = table.Column<string>(type: "text", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: true),
                     passhash = table.Column<int>(name: "pass_hash", type: "integer", nullable: false),
                     guidpermission = table.Column<Guid>(name: "guid_permission", type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.email);
+                    table.ForeignKey(
+                        name: "FK_Users_Auth_email",
+                        column: x => x.email,
+                        principalTable: "Auth",
+                        principalColumn: "user_email",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Users_UserPermissions_guid_permission",
                         column: x => x.guidpermission,
@@ -78,12 +96,12 @@ namespace bancodedados.Migrations
                 columns: table => new
                 {
                     guid = table.Column<Guid>(type: "uuid", nullable: false),
-                    title = table.Column<string>(type: "text", nullable: false),
-                    subtitle = table.Column<string>(type: "text", nullable: false),
-                    content = table.Column<string>(type: "text", nullable: false),
+                    title = table.Column<string>(type: "text", nullable: true),
+                    subtitle = table.Column<string>(type: "text", nullable: true),
+                    content = table.Column<string>(type: "text", nullable: true),
                     date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     approved = table.Column<bool>(type: "boolean", nullable: false),
-                    useremail = table.Column<string>(name: "user_email", type: "text", nullable: false)
+                    useremail = table.Column<string>(name: "user_email", type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -92,8 +110,7 @@ namespace bancodedados.Migrations
                         name: "FK_Posts_Users_user_email",
                         column: x => x.useremail,
                         principalTable: "Users",
-                        principalColumn: "email",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "email");
                 });
 
             migrationBuilder.CreateTable(
@@ -156,8 +173,8 @@ namespace bancodedados.Migrations
                 columns: table => new
                 {
                     guid = table.Column<Guid>(type: "uuid", nullable: false),
-                    content = table.Column<string>(type: "text", nullable: false),
-                    useremail = table.Column<string>(name: "user_email", type: "text", nullable: false),
+                    content = table.Column<string>(type: "text", nullable: true),
+                    useremail = table.Column<string>(name: "user_email", type: "text", nullable: true),
                     guidpost = table.Column<Guid>(name: "guid_post", type: "uuid", nullable: false),
                     publishdate = table.Column<DateTime>(name: "publish_date", type: "timestamp with time zone", nullable: false)
                 },
@@ -174,8 +191,7 @@ namespace bancodedados.Migrations
                         name: "FK_Comments_Users_user_email",
                         column: x => x.useremail,
                         principalTable: "Users",
-                        principalColumn: "email",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "email");
                 });
 
             migrationBuilder.CreateTable(
@@ -203,9 +219,9 @@ namespace bancodedados.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_Parentguid",
+                name: "IX_Categories_guid_parent",
                 table: "Categories",
-                column: "Parentguid");
+                column: "guid_parent");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryModelPostModel_Postsguid",
@@ -280,6 +296,9 @@ namespace bancodedados.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Auth");
 
             migrationBuilder.DropTable(
                 name: "UserPermissions");

@@ -1,5 +1,5 @@
 using Repositories.Interfaces;
-using Util = Utils.Utils;
+
 using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
 
 using WebApi.Helpers;

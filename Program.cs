@@ -1,10 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using WebApi.Helpers;
 using Repositories.Interfaces;
-using Util = Utils.Utils;
-using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
-
 using Repositories;
+using Controllers.Constrains;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +12,9 @@ builder.Services.AddDbContext<ApplicationContext>(
     options => options.UseNpgsql( builder.Configuration.GetConnectionString("default"))
 );
 
+// builder.Services.Configure<RouteOptions>(options => options.ConstraintMap.Add("", typeof(IRouteConstraint)));
+
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -65,5 +66,12 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+// app.MapControllerRoute(
+//     name: "user",
+//     pattern: "",
+//     constraints: typeof(AuthNotPermitedConstraintAttribute)
+// );
+
+// app.MapFallbackToController
 
 app.Run();

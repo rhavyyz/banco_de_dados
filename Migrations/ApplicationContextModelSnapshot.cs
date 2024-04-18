@@ -37,7 +37,20 @@ namespace bancodedados.Migrations
                     b.ToTable("CategoryModelPostModel");
                 });
 
-            modelBuilder.Entity("Models.CategoryModel", b =>
+            modelBuilder.Entity("Entities.Models.AuthModel", b =>
+                {
+                    b.Property<string>("user_email")
+                        .HasColumnType("text");
+
+                    b.Property<long>("password")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("user_email");
+
+                    b.ToTable("Auth");
+                });
+
+            modelBuilder.Entity("Entities.Models.CategoryModel", b =>
                 {
                     b.Property<Guid>("guid")
                         .ValueGeneratedOnAdd()
@@ -57,7 +70,7 @@ namespace bancodedados.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Models.CollaborationModel", b =>
+            modelBuilder.Entity("Entities.Models.CollaborationModel", b =>
                 {
                     b.Property<string>("user_email")
                         .HasColumnType("text");
@@ -77,7 +90,7 @@ namespace bancodedados.Migrations
                     b.ToTable("Collaborations");
                 });
 
-            modelBuilder.Entity("Models.CollaborationPermissionModel", b =>
+            modelBuilder.Entity("Entities.Models.CollaborationPermissionModel", b =>
                 {
                     b.Property<Guid>("guid")
                         .ValueGeneratedOnAdd()
@@ -91,7 +104,7 @@ namespace bancodedados.Migrations
                     b.ToTable("CollaborationPermissions");
                 });
 
-            modelBuilder.Entity("Models.CommentModel", b =>
+            modelBuilder.Entity("Entities.Models.CommentModel", b =>
                 {
                     b.Property<Guid>("guid")
                         .ValueGeneratedOnAdd()
@@ -118,7 +131,7 @@ namespace bancodedados.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Models.LikeModel", b =>
+            modelBuilder.Entity("Entities.Models.LikeModel", b =>
                 {
                     b.Property<string>("user_email")
                         .HasColumnType("text");
@@ -133,7 +146,7 @@ namespace bancodedados.Migrations
                     b.ToTable("Likes");
                 });
 
-            modelBuilder.Entity("Models.PostModel", b =>
+            modelBuilder.Entity("Entities.Models.PostModel", b =>
                 {
                     b.Property<Guid>("guid")
                         .ValueGeneratedOnAdd()
@@ -164,7 +177,7 @@ namespace bancodedados.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("Models.UserModel", b =>
+            modelBuilder.Entity("Entities.Models.UserModel", b =>
                 {
                     b.Property<string>("email")
                         .HasColumnType("text");
@@ -185,7 +198,7 @@ namespace bancodedados.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Models.UserPermissionModel", b =>
+            modelBuilder.Entity("Entities.Models.UserPermissionModel", b =>
                 {
                     b.Property<Guid>("guid")
                         .ValueGeneratedOnAdd()
@@ -206,43 +219,43 @@ namespace bancodedados.Migrations
 
             modelBuilder.Entity("CategoryModelPostModel", b =>
                 {
-                    b.HasOne("Models.CategoryModel", null)
+                    b.HasOne("Entities.Models.CategoryModel", null)
                         .WithMany()
                         .HasForeignKey("Categoriesguid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Models.PostModel", null)
+                    b.HasOne("Entities.Models.PostModel", null)
                         .WithMany()
                         .HasForeignKey("Postsguid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Models.CategoryModel", b =>
+            modelBuilder.Entity("Entities.Models.CategoryModel", b =>
                 {
-                    b.HasOne("Models.CategoryModel", "Parent")
+                    b.HasOne("Entities.Models.CategoryModel", "Parent")
                         .WithMany()
                         .HasForeignKey("guid_parent");
 
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("Models.CollaborationModel", b =>
+            modelBuilder.Entity("Entities.Models.CollaborationModel", b =>
                 {
-                    b.HasOne("Models.CollaborationPermissionModel", "CollaborationPermission")
+                    b.HasOne("Entities.Models.CollaborationPermissionModel", "CollaborationPermission")
                         .WithMany()
                         .HasForeignKey("guid_Collaboration_permission")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Models.PostModel", "Post")
+                    b.HasOne("Entities.Models.PostModel", "Post")
                         .WithMany("Collaborations")
                         .HasForeignKey("guid_post")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Models.UserModel", "User")
+                    b.HasOne("Entities.Models.UserModel", "User")
                         .WithMany("Collaborations")
                         .HasForeignKey("user_email")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -255,15 +268,15 @@ namespace bancodedados.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Models.CommentModel", b =>
+            modelBuilder.Entity("Entities.Models.CommentModel", b =>
                 {
-                    b.HasOne("Models.PostModel", "Post")
+                    b.HasOne("Entities.Models.PostModel", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("guid_post")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Models.UserModel", "User")
+                    b.HasOne("Entities.Models.UserModel", "User")
                         .WithMany("Comments")
                         .HasForeignKey("user_email");
 
@@ -272,15 +285,15 @@ namespace bancodedados.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Models.LikeModel", b =>
+            modelBuilder.Entity("Entities.Models.LikeModel", b =>
                 {
-                    b.HasOne("Models.PostModel", "Post")
+                    b.HasOne("Entities.Models.PostModel", "Post")
                         .WithMany("Likes")
                         .HasForeignKey("guid_post")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Models.UserModel", "User")
+                    b.HasOne("Entities.Models.UserModel", "User")
                         .WithMany("Likes")
                         .HasForeignKey("user_email")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -291,27 +304,35 @@ namespace bancodedados.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Models.PostModel", b =>
+            modelBuilder.Entity("Entities.Models.PostModel", b =>
                 {
-                    b.HasOne("Models.UserModel", "User")
+                    b.HasOne("Entities.Models.UserModel", "User")
                         .WithMany("Posts")
                         .HasForeignKey("user_email");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Models.UserModel", b =>
+            modelBuilder.Entity("Entities.Models.UserModel", b =>
                 {
-                    b.HasOne("Models.UserPermissionModel", "UserPermission")
+                    b.HasOne("Entities.Models.AuthModel", "Auth")
+                        .WithMany()
+                        .HasForeignKey("email")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.UserPermissionModel", "UserPermission")
                         .WithMany("Users")
                         .HasForeignKey("guid_permission")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Auth");
+
                     b.Navigation("UserPermission");
                 });
 
-            modelBuilder.Entity("Models.PostModel", b =>
+            modelBuilder.Entity("Entities.Models.PostModel", b =>
                 {
                     b.Navigation("Collaborations");
 
@@ -320,7 +341,7 @@ namespace bancodedados.Migrations
                     b.Navigation("Likes");
                 });
 
-            modelBuilder.Entity("Models.UserModel", b =>
+            modelBuilder.Entity("Entities.Models.UserModel", b =>
                 {
                     b.Navigation("Collaborations");
 
@@ -331,7 +352,7 @@ namespace bancodedados.Migrations
                     b.Navigation("Posts");
                 });
 
-            modelBuilder.Entity("Models.UserPermissionModel", b =>
+            modelBuilder.Entity("Entities.Models.UserPermissionModel", b =>
                 {
                     b.Navigation("Users");
                 });

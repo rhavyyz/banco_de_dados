@@ -2,7 +2,6 @@ using System.Data.Entity;
 using WebApi.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Interfaces;
-using Util = Utils.Utils;
 using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
 using Entities.Views;
 using Entities.Models;
@@ -51,7 +50,7 @@ public class UserRepository : IUserRepository
 
     public User getByEmail(string email)
     {
-        return getAll().Where(e => e.email == email).FirstOrDefault(); 
+        return getAllModels().Where(e => e.email == email).AsEnumerable().FirstOrDefault(new UserModel()).toView(); 
     }
 
     // This no logical sense aparently

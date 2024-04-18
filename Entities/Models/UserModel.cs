@@ -18,6 +18,7 @@ namespace Entities.Models;
 public class UserModel
 {
     [Key]
+    [ForeignKey(nameof(Auth))]
     public string email { get; set; }
 
     public string name { get; set; }
@@ -34,6 +35,7 @@ public class UserModel
     
     public virtual List<CommentModel> Comments { get; set; }
     public virtual List<CollaborationModel> Collaborations { get; set; }
+    public virtual AuthModel Auth { get; set; }
 
     public User toView()
     {

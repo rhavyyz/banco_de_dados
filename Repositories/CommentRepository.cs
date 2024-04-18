@@ -1,7 +1,7 @@
 using System.Data.Entity;
 using WebApi.Helpers;
 using Repositories.Interfaces;
-using Util = Utils.Utils;
+
 using EfExtensions = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Entities.Views;

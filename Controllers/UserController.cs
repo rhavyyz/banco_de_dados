@@ -1,19 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Repositories.Interfaces;
 using Entities.Views;
+using Controllers.Constrains;
 
-namespace banco_de_dados.Controllers;
+namespace Controllers;
 
 [ApiController]
+[PathNotPermitedConstraint("/user/auth")]
 [Route("[controller]")]
 public class UserController : ControllerBase
 {
     private readonly IUserRepository _rep; 
+    // private readonly IAuthRepository _auth_rep; 
 
     public UserController(IUserRepository rep)
     {
         _rep = rep;
+        // _auth_rep = auth_rep;
     }
 
     [HttpGet]
@@ -34,25 +37,34 @@ public class UserController : ControllerBase
         return Ok(_rep.getByName(name));
     }
 
-    [HttpPost]
-    public async Task<ActionResult> Post([FromBody] User user)
-    {
-        await _rep.add(user);
-        return Ok();
-    }
-
     [HttpPut]
     public async Task<ActionResult> Put([FromBody] User user)
     {
         return Ok(await _rep.update(user));
     }
+    
+    // Auth   
 
-    [HttpDelete("{email}")]
-    public async Task<IActionResult> Delete(string email)
-    {
-        await _rep.delete(new User{email = email});
+    // [HttpPost("auth")]
+    // public async Task<ActionResult> Post([FromBody] User user)
+    // {
+    //     await _rep.add(user);
+    //     return Ok();
+    // }
 
-        return Ok();
-    }
+    // [HttpDelete("auth/{email}")]
+    // public async Task<IActionResult> Delete(string email)
+    // {
+    //     await _rep.delete(new User{email = email});
 
+    //     return Ok();
+    // }
+
+    // [HttpPut("auth")]
+    // public IActionResult PutPassword()
+    // {
+    
+
+    //     return Ok();
+    // }
 }
